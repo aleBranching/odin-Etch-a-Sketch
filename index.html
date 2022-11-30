@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etch a Sketch</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="sketcher">
+      <div id="buttons">
+        <!-- <label for="Squares">Squares</label> -->
+
+        <p class="value">16</p>
+        <input type="range" min="2" max="100" value="16" id="squareNo" />
+
+        <button id="RGB">RGB</button>
+        <button id="eraser">Eraser</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div id="container"></div>
+    </div>
+  </body>
+  <script>
+    let clicked;
+    let RGB = false;
+    // let eraser = false;
+    let RGBButton = document.querySelector("#RGB");
+    let eraserButton = document.querySelector("#eraser");
+
+    RGBButton.addEventListener("click", () => {
+      RGB = !RGB;
+    });
+    eraserButton.addEventListener("click", () => {
+      eraser = !eraser;
+    });
+    function createGrid() {
+      while (gridContainer.firstChild) {
+        console.log("test");
+        gridContainer.removeChild(gridContainer.firstChild);
+      }
+      // debugger;
+      console.log("testy");
+      for (let i = 0; i < amount * amount; ++i) {
+        let squareDiv = document.createElement("div");
+        squareDiv.classList.toggle("square");
+        gridContainer.append(squareDiv);
+      }
+
+      gridContainer.style.gridTemplateColumns = `repeat(${amount}, 1fr)`;
+      gridContainer.style.gridTemplateRows = `repeat(${amount}, 1fr)`;
+      let allSquares = document.querySelectorAll("div.square");
+      // console.log(allSquares);
+
+      function changeColour(e) {
+        // console.log(e);
+        if (RGB) {
+          this.style.backgroundColor = "green";
+        } else if (eraser) {
+          this.style.backgroundColor = "";
+        } else {
+          this.style.backgroundColor = "black";
+        }
+      }
+
+      allSquares.forEach((square) => {
+        // console.log(square);
+        square.addEventListener("mouseover", changeColour);
+      });
+    }
+
+    let amount = 16;
+    let gridContainer = document.querySelector("#container");
+    let rangeSquareSelect = document.querySelector("#squareNo");
+    createGrid();
+    // rangeSquareSelect.addEventListener("change", (e) => amount = e.value)
+    rangeSquareSelect.addEventListener("change", (e) => {
+      amount = e.target.value;
+      createGrid();
+    });
+    // gridContainer.appendChild(squareDiv);
+  </script>
+</html>
